@@ -2,6 +2,8 @@ from app import app, db, User, Product, Supplier, Customer, Sale, SaleItem
 from werkzeug.security import generate_password_hash
 from datetime import datetime, timedelta
 import random
+import uvicorn
+from main import app
 
 def init_database():
     """Initialize the database with sample data"""
@@ -121,17 +123,14 @@ def init_database():
 
 if __name__ == '__main__':
     init_database()
-    print("Starting O. Castro Autoglass & Aluminum MIS...")
-    print("Access the system at: http://localhost:5000")
-    print("Default login credentials:")
-    print("Admin: admin / admin123")
-    print("Staff: staff / staff123")
-    print("Cashier: cashier / cashier123")
-    print("\nFeatures available:")
-    print("✓ Dashboard with statistics")
-    print("✓ Inventory management")
-    print("✓ Sales tracking")
-    print("✓ Purchase orders")
-    print("✓ Reports with charts (Admin only)")
-    print("✓ PDF/Excel export")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    print("🚀 Starting O. Castro Autoglass & Aluminum MIS...")
+    print("📊 Access the system at: http://localhost:8000")
+    print("🔑 Default login: admin / admin123")
+    print("\n✨ Features available:")
+    print("  ✓ Modern FastAPI backend")
+    print("  ✓ Dashboard with statistics")
+    print("  ✓ Inventory management")
+    print("  ✓ Reports with charts (Admin only)")
+    print("  ✓ Easy installation and deployment")
+    
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)
