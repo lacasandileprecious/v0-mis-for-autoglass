@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 
-{% block page_title %}Dashboard{% endblock %}
-
 {% block content %}
 <div class="stats-grid">
     <div class="stat-card">
@@ -36,7 +34,6 @@
             <thead>
                 <tr>
                     <th>Sale ID</th>
-                    <th>Customer</th>
                     <th>Amount</th>
                     <th>Payment Method</th>
                     <th>Date</th>
@@ -46,10 +43,9 @@
                 {% for sale in recent_sales %}
                 <tr>
                     <td>#{{ sale.id }}</td>
-                    <td>{{ sale.customer.name if sale.customer else 'Walk-in Customer' }}</td>
                     <td>${{ "%.2f"|format(sale.total_amount) }}</td>
                     <td>
-                        <span class="badge badge-{{ 'success' if sale.payment_method == 'cash' else 'warning' }}">
+                        <span class="badge badge-success">
                             {{ sale.payment_method.title() }}
                         </span>
                     </td>
