@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="stats-grid">
+    <div class="stat-card">
+        <i class="fas fa-boxes"></i>
+        <h3>{{ total_products }}</h3>
+        <p>Total Products</p>
+    </div>
+    <div class="stat-card">
+        <i class="fas fa-exclamation-triangle" style="color: #e74c3c;"></i>
+        <h3>{{ low_stock_items }}</h3>
+        <p>Low Stock Items</p>
+    </div>
+    <div class="stat-card">
+        <i class="fas fa-cash-register"></i>
+        <h3>{{ today_sales }}</h3>
+        <p>Today's Sales</p>
+    </div>
+    <div class="stat-card">
+        <i class="fas fa-users"></i>
+        <h3>{{ total_customers }}</h3>
+        <p>Total Customers</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-clock"></i> Recent Sales
+    </div>
+    <div class="card-body">
+        {% if recent_sales %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sale ID</th>
+                    <th>Customer</th>
+                    <th>Amount</th>
+                    <th>Payment Method</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in recent_sales %}
+                <tr>
+                    <td>#{{ sale.id }}</td>
+                    <td>{{ sale.customer.name if sale.customer else 'Walk-in Customer' }}</td>
+                    <td>${{ "%.2f"|format(sale.total_amount) }}</td>
+                    <td>
+                        <span class="badge badge-{{ 'success' if sale.payment_method == 'cash' else 'warning' }}">
+                            {{ sale.payment_method.title() }}
+                        </span>
+                    </td>
+                    <td>{{ sale.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="text-align: center; color: #666; padding: 20px;">No recent sales found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block page_title %}Purchase Orders{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: between; align-items: center; margin-bottom: 20px;">
+    <div>
+        <a href="{{ url_for('new_purchase_order') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> New Purchase Order
+        </a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <i class="fas fa-file-invoice"></i> Purchase Orders
+    </div>
+    <div class="card-body">
+        {% if orders %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>PO Number</th>
+                    <th>Supplier</th>
+                    <th>Total Amount</th>
+                    <th>Status</th>
+                    <th>Expected Delivery</th>
+                    <th>Created Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td><strong>{{ order.po_number }}</strong></td>
+                    <td>{{ order.supplier.name }}</td>
+                    <td>${{ "%.2f"|format(order.total_amount) }}</td>
+                    <td>
+                        <span class="badge badge-{{ 'success' if order.status == 'delivered' else 'warning' }}">
+                            {{ order.status.title() }}
+                        </span>
+                    </td>
+                    <td>{{ order.expected_delivery.strftime('%Y-%m-%d') if order.expected_delivery else 'TBD' }}</td>
+                    <td>{{ order.created_at.strftime('%Y-%m-%d') }}</td>
+                    <td>
+                        <a href="{{ url_for('export_purchase_order', po_id=order.id) }}" class="btn btn-primary" style="padding: 4px 8px; font-size: 12px;">
+                            <i class="fas fa-download"></i> PDF
+                        </a>
+                        <button class="btn" style="background-color: #28a745; color: white; padding: 4px 8px; font-size: 12px;">
+                            <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="text-align: center; color: #666; padding: 20px;">No purchase orders found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
